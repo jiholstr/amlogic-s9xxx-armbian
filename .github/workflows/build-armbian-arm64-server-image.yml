@@ -279,10 +279,10 @@ on:
       kernel_repo:
         description: "Set the kernel repository."
         required: false
-        default: "ophub/kernel"
+        default: "jiholstr/amlogic-s9xxx-armbian"
         type: choice
         options:
-          - ophub/kernel
+          - jiholstr/amlogic-s9xxx-armbian
       kernel_usage:
         description: "Set the tags of the stable kernel."
         required: false
