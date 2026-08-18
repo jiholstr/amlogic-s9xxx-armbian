@@ -190,7 +190,7 @@ jobs:
             kernel-${{ inputs.kernel_toolchain }}-${{ matrix.kernel_version }}-
 
       - name: Compile the kernel [ ${{ matrix.kernel_version }} ]
-        uses: ophub/amlogic-s9xxx-armbian@main
+        uses: jiholstr/amlogic-s9xxx-armbian@main
         if: ${{ steps.disk.outputs.status == 'success' && !cancelled() }}
         with:
           build_target: kernel
@@ -204,6 +204,8 @@ jobs:
           ccache_clear: ${{ inputs.ccache_clear }}
           docker_hostpath: /builder
           docker_image: ophub/armbian-${{ inputs.docker_image }}:arm64
+          kernel_patch: kernel-patch/x96s
+          auto_patch: true
 
       - name: Upload Kernel to Release
         uses: ophub/upload-to-releases@main
