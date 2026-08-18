@@ -1,7 +1,7 @@
 diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
 --- a/drivers/usb/host/xhci-mem.c
 +++ b/drivers/usb/host/xhci-mem.c
-@@ -13,7 +13,13 @@
+@@ -13,9 +13,16 @@
  #include <linux/slab.h>
  #include <linux/dmapool.h>
  #include <linux/dma-mapping.h>
@@ -18,10 +18,7 @@ diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
  /*
   * Allocates a generic ring segment from the ring pool, sets the dma address,
   * initializes the segment to zero, and sets the private next pointer to NULL.
-@@ -2058,7 +2064,14 @@ static int xhci_setup_port_arrays(struct xhci_hcd *xhci, gfp_t flags)
- 		if (xhci->usb2_rhub.num_ports + xhci->usb3_rhub.num_ports ==
- 		    num_ports)
- 			break;
+@@ -2061,6 +2068,13 @@
  		offset = xhci_find_next_ext_cap(base, offset,
  						XHCI_EXT_CAPS_PROTOCOL);
  	}
