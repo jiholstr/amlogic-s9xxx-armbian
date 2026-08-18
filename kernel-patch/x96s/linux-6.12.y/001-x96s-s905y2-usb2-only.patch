@@ -1,33 +1,15 @@
 diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
 --- a/drivers/usb/host/xhci-mem.c
 +++ b/drivers/usb/host/xhci-mem.c
-@@ -13,9 +13,16 @@
- #include <linux/slab.h>
- #include <linux/dmapool.h>
- #include <linux/dma-mapping.h>
-+#include <linux/moduleparam.h>
- #include "xhci.h"
- #include "xhci-trace.h"
- #include "xhci-debugfs.h"
-+
-+static bool x96s_vendor_usb2_only;
-+module_param_named(x96s_vendor_usb2_only, x96s_vendor_usb2_only, bool, 0644);
-+MODULE_PARM_DESC(x96s_vendor_usb2_only,
-+		 "Force USB2-only root hub layout for X96S/S905Y2");
-+
- /*
-  * Allocates a generic ring segment from the ring pool, sets the dma address,
-  * initializes the segment to zero, and sets the private next pointer to NULL.
-@@ -2061,6 +2068,13 @@
+@@ -2061,6 +2061,12 @@
  		offset = xhci_find_next_ext_cap(base, offset,
  						XHCI_EXT_CAPS_PROTOCOL);
  	}
 +
-+	if (x96s_vendor_usb2_only) {
-+		xhci_info(xhci, "X96S/S905Y2 USB2-only quirk enabled\n");
-+		xhci->usb3_rhub.num_ports = 0;
-+		xhci->allow_single_roothub = 0;
-+	}
++	/* X96S / S905Y2 has no usable SuperSpeed PHY. */
++	xhci_warn(xhci, "X96S: forcing USB2-only root hub layout\n");
++	xhci->usb3_rhub.num_ports = 0;
++	xhci->allow_single_roothub = 0;
 +
  	if (xhci->usb2_rhub.num_ports == 0 && xhci->usb3_rhub.num_ports == 0) {
  		xhci_warn(xhci, "No ports on the roothubs?\n");
